@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_home"
+            android:orderInCategory="100"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/nav_home"/>
+        <item
+            android:id="@+id/drawer_skillliste"
+            android:orderInCategory="200"
+            android:title="@string/nav_skillliste"/>
+
+        <item
+            android:id="@+id/drawer_merkliste"
+            android:orderInCategory="300"
+            android:title="@string/nav_merkliste"/>
+
+        <item
+            android:id="@+id/drawer_SkillVorschlag"
+            android:orderInCategory="400"
+            android:title="@string/nav_SkillVorschlag"/>
+
+        <item
+            android:id="@+id/drawer_settings"
+            android:orderInCategory="500"
+            android:icon="@drawable/ic_build_black_24dp"
+            android:title="@string/nav_settings"/>
+
+    </group>
+</menu>
