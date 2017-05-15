@@ -4,11 +4,15 @@
     <item
         android:id="@+id/menu_1"
         android:orderInCategory="100"
-        android:title="@string/menu_main_1" />
+        android:title="@string/menu_sortByRating" />
 
     <item
         android:id="@+id/menu_2"
         android:orderInCategory="200"
-        android:title="@string/menu_main_2" />
+        android:title="@string/menu_sortByDifficulty" />
+    <item
+        android:id="@+id/menu_3"
+        android:orderInCategory="300"
+        android:title="@string/menu_sortByName" />
 
 </menu>

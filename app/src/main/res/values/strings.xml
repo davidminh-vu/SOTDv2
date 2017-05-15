@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Skills of the Day</string>
-    <string name="menu_main_1">Punkt 1</string>
-    <string name="menu_main_2">Punkt 2</string>
-    <string name="menu_main_3">Punkt 3</string>
-    <string name="menu_main_4">Punkt 4</string>
-    <string name="menu_main_5">Punkt 5</string>
+    <string name="menu_sortByRating">Sort by Rating</string>
+    <string name="menu_sortByDifficulty">Sort by Difficulty</string>
+    <string name="menu_sortByName">Sort by Name</string>
     <string name="title_activity_navbar">navbar</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -14,7 +12,7 @@
 
     <!-- Navigation Drawer menu labels -->
     <string name="nav_home">Home</string>
-    <string name="nav_skillliste">Skillliste</string>
+    <string name="nav_skillliste">Explore</string>
     <string name="nav_merkliste">Merkliste</string>
     <string name="nav_SkillVorschlag">Skill Vorschlagen</string>
     <string name="nav_settings">Einstellungen</string>
