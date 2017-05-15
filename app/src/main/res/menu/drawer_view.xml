@@ -11,16 +11,20 @@
         <item
             android:id="@+id/drawer_skillliste"
             android:orderInCategory="200"
-            android:title="@string/nav_skillliste"/>
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="@string/nav_skillliste"
+            />
 
         <item
             android:id="@+id/drawer_merkliste"
             android:orderInCategory="300"
+            android:icon="@drawable/ic_access_time_black_24dp"
             android:title="@string/nav_merkliste"/>
 
         <item
             android:id="@+id/drawer_SkillVorschlag"
             android:orderInCategory="400"
+            android:icon="@drawable/ic_file_upload_black_24dp"
             android:title="@string/nav_SkillVorschlag"/>
 
         <item
