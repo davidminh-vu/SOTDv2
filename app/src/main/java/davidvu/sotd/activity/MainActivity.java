@@ -1,6 +1,5 @@
 package davidvu.sotd.activity;
 
-
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,35 +32,23 @@ import java.util.List;
 
 import davidvu.sotd.R;
 import davidvu.sotd.fragment.HomeFragment;
+import davidvu.sotd.fragment.MerkFragment;
+import davidvu.sotd.fragment.SettingsFragment;
 import davidvu.sotd.fragment.SkillFragment;
+import davidvu.sotd.fragment.VorschlagFragment;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
-
-
-    // index to identify current nav menu item
-    public static int navItemIndex = 0;
+    private NavigationView nvDrawer;
+    private Toolbar mtoolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         createToolbar();
-
-        //Check if it is Android 5.0 or higher
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP){
-            // Call material design APIs here
-        }else{
-             // Material Design pre API 21
-        }
-
-        /**
-         * final ActionBar ab = getSupportActionBar();
-         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-         ab.setDisplayHomeAsUpEnabled(true);
-         */
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -75,10 +62,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+        // Find our drawer view
+        nvDrawer = (NavigationView) findViewById(R.id.nav_view);
+        // Setup drawer view
+        setupDrawerContent(nvDrawer);
     }
 
     private void createToolbar(){
-        Toolbar mtoolbar = (Toolbar) findViewById(R.id.mCustomToolbar);
+        mtoolbar = (Toolbar) findViewById(R.id.mCustomToolbar);
         setSupportActionBar(mtoolbar);
         getSupportActionBar().setTitle("Skill of the Day");
         mtoolbar.setNavigationIcon(R.drawable.ic_dehaze_black_24dp);;
@@ -86,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_sort_black_24dp);
         mtoolbar.setOverflowIcon(drawable);
     }
- ////
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -103,6 +94,61 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+        // Create a new fragment and specify the fragment to show based on nav item clicked
+        Fragment fragment = null;
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.drawer_home:
+                fragmentClass = HomeFragment.class;
+                break;
+            case R.id.drawer_skillliste:
+                fragmentClass = SkillFragment.class;
+                break;
+            case R.id.drawer_merkliste:
+                fragmentClass = MerkFragment.class;
+                break;
+            case R.id.drawer_SkillVorschlag:
+                fragmentClass = VorschlagFragment.class;
+                break;
+            case R.id.drawer_settings:
+                fragmentClass = SettingsFragment.class;
+                break;
+            default:
+                fragmentClass = HomeFragment.class;
+        }
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawerLayout.closeDrawers();
+    }
+
+
 
     /**
      *  private Fragment getHomeFragment() {
