@@ -1,4 +1,6 @@
 <resources>
+    <string name="title_activity_skill_panel">SkillPanel</string>
+
     <string name="app_name">Skills of the Day</string>
     <string name="menu_sortByRating">Sort by Rating</string>
     <string name="menu_sortByDifficulty">Sort by Difficulty</string>

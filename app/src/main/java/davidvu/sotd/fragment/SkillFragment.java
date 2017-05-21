@@ -1,14 +1,33 @@
 package davidvu.sotd.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import davidvu.sotd.Constants;
 import davidvu.sotd.R;
+import davidvu.sotd.RequestHandler;
+import davidvu.sotd.SkillListAdapter;
+import davidvu.sotd.SkillListObject;
+import davidvu.sotd.activity.SkillPanel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +47,21 @@ public class SkillFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private SkillListObject[] skillListObjects;
+    private GridView gridView;
+    private static SkillListAdapter skillListAdapter;
+
+    //
+    //TODO: Einbindung in den Sort Button oben rechts
+    //Options:
+    //"NA" = Sort By Name Begin with A - Z
+    //"NZ" = Sort By Name Begin with Z - A
+    //"SS" = Sort By Schwierigkeit Begin with hardest - easiest
+    //"SL" = Sort By Schwierigkeit Begin with easiest - hardest
+    //"RM" = Sort By Rating Begin with most - least
+    //"RL" = Sort By Rating Begin with least - most
+    private String sortLike = "NA";
 
     private OnFragmentInteractionListener mListener;
 
@@ -66,6 +100,7 @@ public class SkillFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getSkillnames();
         return inflater.inflate(R.layout.fragment_skill, container, false);
     }
 
@@ -109,5 +144,56 @@ public class SkillFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void getSkillnames(){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, Constants.URL_SLIST+sortLike,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            JSONArray ja = jsonObject.optJSONArray("skillname");
+                            skillListObjects = new SkillListObject[ja.length()];
+                            for(int i=0;i<ja.length();i++){
+                                String s = ja.getString(i).substring(14,ja.getString(i).length()-2);
+                                skillListObjects[i] = new SkillListObject(getContext(),s,false);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        createList();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        RequestHandler.getInstance(getContext()).addToRequestQueue(stringRequest);
+
+    }
+    private void createList(){
+        gridView = (GridView) getView().findViewById(R.id.SkillList);
+
+        skillListAdapter = new SkillListAdapter(getContext(), R.layout.skilllist_item_row, skillListObjects);
+        gridView.setAdapter(skillListAdapter);
+
+        final Intent intent = new Intent(getActivity(),SkillPanel.class);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SkillPanel.SkillPanelName = ((TextView) view.findViewById(R.id.SkillListName)).getText().toString();
+                startActivity(intent);
+            }
+        });
+
+    }
+    public static void updateSkillList(){
+        skillListAdapter.notifyDataSetChanged();
     }
 }

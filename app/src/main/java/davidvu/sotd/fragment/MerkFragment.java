@@ -1,14 +1,25 @@
 package davidvu.sotd.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import davidvu.sotd.Constants;
+import davidvu.sotd.MyListStorage;
 import davidvu.sotd.R;
+import davidvu.sotd.SkillListAdapter;
+import davidvu.sotd.SkillListObject;
+import davidvu.sotd.activity.SkillPanel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,6 +39,10 @@ public class MerkFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private ArrayList<String> mySkillnames;
+    private SkillListObject[] skillListObjects;
+    private GridView gridView;
+    private static SkillListAdapter skillListAdapter;
     private OnFragmentInteractionListener mListener;
 
     public MerkFragment() {
@@ -65,7 +80,29 @@ public class MerkFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_merk, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_merk, container, false);
+
+        mySkillnames = MyListStorage.getStringArrayPref(getContext(), Constants.SHARED_MYLIST);
+        skillListObjects = new SkillListObject[mySkillnames.size()];
+        for(int i=0;i<mySkillnames.size();i++){
+            skillListObjects[i] = new SkillListObject(getContext(),mySkillnames.get(i),true);
+        }
+        gridView = (GridView) v.findViewById(R.id.MySkillList);
+
+        skillListAdapter = new SkillListAdapter(getContext(), R.layout.skilllist_item_row, skillListObjects);
+        gridView.setAdapter(skillListAdapter);
+
+        final Intent intent = new Intent(getActivity(),SkillPanel.class);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SkillPanel.SkillPanelName = ((TextView) view.findViewById(R.id.SkillListName)).getText().toString();
+                startActivity(intent);
+            }
+        });
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -108,5 +145,9 @@ public class MerkFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public static void updateSkillList(){
+        skillListAdapter.notifyDataSetChanged();
     }
 }

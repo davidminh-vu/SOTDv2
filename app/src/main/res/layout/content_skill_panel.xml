@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.SkillPanel"
+    tools:showIn="@layout/activity_skill_panel">
+    <ScrollView
+        android:layout_width="368dp"
+        android:layout_height="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="8dp">
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
+        <ImageView
+            android:id="@+id/skillPanelImage"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginBottom="0dp"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp" />
+        <TextView
+            android:id="@+id/skill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RatingBar
+            android:layout_below="@+id/rate_me"
+            android:id="@+id/ratingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1.0" />
+
+        <Button
+            android:layout_below="@+id/ratingBar"
+            android:id="@+id/submitRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"
+            android:onClick="rateMe"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/learnButton"
+            android:text="Skill Gelernt"/>
+
+    </LinearLayout>
+</ScrollView>
+</android.support.constraint.ConstraintLayout>

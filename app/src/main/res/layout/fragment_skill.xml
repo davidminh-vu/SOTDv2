@@ -6,10 +6,22 @@
     tools:context="davidvu.sotd.fragment.SkillFragment"
     >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/nav_skillliste" />
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <GridView
+            android:id="@+id/SkillList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="2">
+
+        </GridView>
+
+    </LinearLayout>
 
 </FrameLayout>
